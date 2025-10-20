@@ -15,5 +15,14 @@ export const delist = (
     // This requires admin capability verification
     // Returns the hero to the original seller
 
+  // Çözüm:
+  tx.moveCall({
+    target: `${packageId}::marketplace::delist`,
+    arguments: [
+      tx.object(adminCapId), // Admin yetkisini kanıtlayan nesne
+      tx.object(listHeroId), // Listeden kaldırılacak nesne
+    ],
+  });
+
   return tx;
 };

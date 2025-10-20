@@ -11,5 +11,14 @@ export const battle = (packageId: string, heroId: string, arenaId: string) => {
     // The battle winner is determined by hero power comparison
     // Winner takes both heroes
   
+  // Çözüm:
+  tx.moveCall({
+    target: `${packageId}::arena::battle`,
+    arguments: [
+      tx.object(heroId), // Meydan okuyan (saldıran) hero'nun nesnesi
+      tx.object(arenaId), // Savaşın gerçekleşeceği arena nesnesi
+    ],
+  });
+
   return tx;
 };

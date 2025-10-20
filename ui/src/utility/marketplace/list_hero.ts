@@ -10,6 +10,11 @@ export const listHero = (
   // TODO: Convert SUI to MIST (1 SUI = 1,000,000,000 MIST)
   // const priceInMist = ?
 
+  // Çözüm:
+  // Fiyatı string'den sayıya (Number) çevirip MIST'e dönüştürüyoruz.
+  // BigInt kullanarak büyük sayılarda hassasiyet kaybını önlüyoruz.
+  const priceInMist = BigInt(parseFloat(priceInSui) * 1_000_000_000);
+
   // TODO: Add moveCall to list a hero for sale
   // Function: `${packageId}::marketplace::list_hero`
   // Arguments: heroId (object), priceInMist (u64)
@@ -17,6 +22,15 @@ export const listHero = (
   // - Use tx.object() for the hero object
   // - Use tx.pure.u64() for the price in MIST
   // - Remember: 1 SUI = 1_000_000_000 MIST
+
+  // Çözüm:
+  tx.moveCall({
+    target: `${packageId}::marketplace::list_hero`,
+    arguments: [
+      tx.object(heroId),
+      tx.pure.u64(priceInMist),
+    ],
+  });
 
   return tx;
 };
